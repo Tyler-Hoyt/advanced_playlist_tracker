@@ -10,7 +10,7 @@ class MainView(tk.Frame):
 
         """Set root attributes"""
         parent.title("Advanced Playlist Tracker")
-        parent.wm_geometry("400x400")
+        parent.wm_geometry("800x600")
 
         self.topbar = TopBar(self)
         self.playlistbar = PlaylistBar(self)

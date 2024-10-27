@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 
 class PlaylistBar(tk.Frame):
@@ -5,17 +6,8 @@ class PlaylistBar(tk.Frame):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
 
-        #directory_path = "C:\Program Files (x86)\Steam\steamapps\common\FPSAimTrainer\FPSAimTrainer\Saved\SaveGames\Playlists"
-        #playlist_names = self.__get_playlist_names(directory_path) 
-        
-        playlist_names = [
-                "Item 1", 
-                "Item 2", 
-                "Item 3", 
-                "Item 4", 
-                "Item 5", 
-                "Item 6"
-        ]
+        directory_path = "C:\Program Files (x86)\Steam\steamapps\common\FPSAimTrainer\FPSAimTrainer\Saved\SaveGames\Playlists"
+        playlist_names = self.__get_playlist_names(directory_path) 
 
         cur_row = 0
         for name in playlist_names:
@@ -40,5 +32,6 @@ class PlaylistBar(tk.Frame):
 
     def __change_selected_playlist(self, selected_playlist):
         """Changes the selected playlist"""
-
+       
         self.parent.topbar.label.config(text="Selected Playlist: " + selected_playlist)
+        self.parent.statsview.load_playlist(selected_playlist)
