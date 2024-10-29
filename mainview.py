@@ -1,14 +1,15 @@
 import tkinter as tk
 from topbar import TopBar
 from playlistbar import PlaylistBar
-from statsview import StatsView 
+from statsview import StatsView
+
 
 class MainView(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
 
-        """Set root attributes"""
+        # Set root attributes
         parent.title("Advanced Playlist Tracker")
         parent.wm_geometry("800x600")
 
@@ -19,7 +20,6 @@ class MainView(tk.Frame):
         self.topbar.pack(side="top", fill="x")
         self.playlistbar.pack(side="left", fill="y")
         self.statsview.pack(side="right", fill="both", expand="True")
-
 
 
 if __name__ == "__main__":
