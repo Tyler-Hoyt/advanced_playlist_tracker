@@ -11,6 +11,6 @@ class TopBar(tk.Frame):
         self.label.pack(side=tk.LEFT)
 
         # Private
-        title = tk.Label(self, text="Advanced Playlist Tracker")
-        title.config(font=("Helvetica", 14, "bold"))
-        title.pack(side=tk.RIGHT)
+        selected_directory = tk.Label(self, text="")
+        selected_directory.config(font=("Helvetica", 14, "bold"))
+        selected_directory.pack(side=tk.RIGHT)

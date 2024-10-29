@@ -7,9 +7,8 @@ class PlaylistBar(tk.Frame):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
 
-        #directory_path = "C:/Program Files (x86)/Steam/steamapps/common/FPSAimTrainer/FPSAimTrainer/Saved/SaveGames/Playlists"
-        #playlist_names = self.__get_playlist_names(directory_path)
-        playlist_names = ["Test1", "Test2", "Test3"]
+    def load_playlist(self, directory):
+        playlist_names = self.__get_playlist_names(directory)
 
         cur_row = 0
         for name in playlist_names:
@@ -28,6 +27,13 @@ class PlaylistBar(tk.Frame):
     def __get_playlist_names(self, directory):
         """Reads all file names in the specified directory."""
 
+        '''
+        What makes a valid file?
+        - The file must be a file, not a directory
+        - The file must be a .json file
+        - The file must have the general playlist structure
+        - Check for json attributes and if it follows out layout then list
+        '''
         file_names = []
         for entry in os.listdir(directory):
             if os.path.isfile(os.path.join(directory, entry)):

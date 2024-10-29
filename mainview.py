@@ -2,6 +2,7 @@ import tkinter as tk
 from topbar import TopBar
 from playlistbar import PlaylistBar
 from statsview import StatsView
+from selectbar import SelectBar
 
 
 class MainView(tk.Frame):
@@ -16,10 +17,15 @@ class MainView(tk.Frame):
         self.topbar = TopBar(self)
         self.playlistbar = PlaylistBar(self)
         self.statsview = StatsView(self)
+        self.selectbar = SelectBar(self)
 
         self.topbar.pack(side="top", fill="x")
-        self.playlistbar.pack(side="left", fill="y")
         self.statsview.pack(side="right", fill="both", expand="True")
+        self.selectbar.pack(side="left", fill="y")
+
+    def create_playlistbar(self, directory):
+        self.playlistbar.pack(side="left", fill="y")
+        self.playlistbar.load_playlists(directory)
 
 
 if __name__ == "__main__":
