@@ -4,8 +4,8 @@ import tkinter as tk
 
 
 class StatsView(tk.Frame):
-    directory_path = "C:/Program Files (x86)/Steam/steamapps/common/FPSAimTrainer/FPSAimTrainer/Saved/SaveGames/Playlists"
-    scores_path = "C:/Program Files (x86)/Steam/steamapps/common/FPSAimTrainer/FPSAimTrainer/stats"
+    #directory_path = "C:/Program Files (x86)/Steam/steamapps/common/FPSAimTrainer/FPSAimTrainer/Saved/SaveGames/Playlists"
+    #scores_path = "C:/Program Files (x86)/Steam/steamapps/common/FPSAimTrainer/FPSAimTrainer/stats"
 
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
@@ -19,11 +19,11 @@ class StatsView(tk.Frame):
         self.leftstatsbar.pack(side="left", fill="y")
 
     def load_playlist(self, playlist_name):
-        '''
-        with open(self.directory_path + '/' + playlist_name, 'r') as file:
+        with open(self.parent.topbar.directory + '/' + playlist_name,
+                  'r'
+                  ) as file:
             data = json.load(file)
             self.leftstatsbar.set_scenarios(data['scenarioList'])
-        '''
 
     def start_threshold_training(self):
         self.is_training = True
@@ -31,6 +31,7 @@ class StatsView(tk.Frame):
         self.controlpanel.end_button.config(state=tk.NORMAL)
 
         parent_widgets = self.parent.playlistbar.winfo_children()
+        parent_widgets += self.parent.topbar.winfo_children()
         for widget in parent_widgets:
             if widget.winfo_class() == "Button":
                 widget.config(state=tk.DISABLED)

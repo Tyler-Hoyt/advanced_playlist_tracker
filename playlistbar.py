@@ -1,5 +1,6 @@
 import os
 import tkinter as tk
+import json
 
 
 class PlaylistBar(tk.Frame):
@@ -20,25 +21,29 @@ class PlaylistBar(tk.Frame):
                 text="Select Playlist",
                 command=lambda name=name: self.__change_selected_playlist(name)
             )
-            button.grid(row=cur_row, column=1, padx=2, pady=2)
+            button.grid(row=cur_row, column=1, padx=2, pady=(10, 0))
 
             cur_row += 1
 
     def __get_playlist_names(self, directory):
         """Reads all file names in the specified directory."""
 
-        '''
-        What makes a valid file?
-        - The file must be a file, not a directory
-        - The file must be a .json file
-        - The file must have the general playlist structure
-        - Check for json attributes and if it follows out layout then list
-        '''
         file_names = []
         for entry in os.listdir(directory):
             if os.path.isfile(os.path.join(directory, entry)):
-                file_names.append(entry)
+                if self.__is_playlist_file(os.path.join(directory, entry)):
+                    file_names.append(entry)
         return file_names
+
+    def __is_playlist_file(self, file_path):
+        """Checks if the file is a valid playlist file"""
+        if file_path.endswith(".json"):
+            with open(file_path, 'r') as file:
+                data = json.load(file)
+                # Need to add more checks here but fine for now
+                if 'scenarioList' in data:
+                    return True
+        return False
 
     def __change_selected_playlist(self, selected_playlist):
         """Changes the selected playlist"""

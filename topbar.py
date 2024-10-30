@@ -30,5 +30,4 @@ class TopBar(tk.Frame):
         )
 
         if self.directory != "":
-            self.pack_forget()
             self.parent.create_playlistbar(self.directory)

@@ -2,7 +2,6 @@ import tkinter as tk
 from topbar import TopBar
 from playlistbar import PlaylistBar
 from statsview import StatsView
-from selectbar import SelectBar
 
 
 class MainView(tk.Frame):

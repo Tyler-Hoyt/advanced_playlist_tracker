@@ -1,0 +1,10 @@
+{
+    "scenarioList": [
+        {
+            "scenario_name": "test_scenario_1"
+        },
+        {
+            "scenario_name": "test_scenario_2"
+        }
+    ]
+}
