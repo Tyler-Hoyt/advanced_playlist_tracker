@@ -17,11 +17,9 @@ class MainView(tk.Frame):
         self.topbar = TopBar(self)
         self.playlistbar = PlaylistBar(self)
         self.statsview = StatsView(self)
-        self.selectbar = SelectBar(self)
 
         self.topbar.pack(side="top", fill="x")
         self.statsview.pack(side="right", fill="both", expand="True")
-        self.selectbar.pack(side="left", fill="y")
 
     def create_playlistbar(self, directory):
         self.playlistbar.pack(side="left", fill="y")

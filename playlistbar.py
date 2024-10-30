@@ -7,7 +7,7 @@ class PlaylistBar(tk.Frame):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
 
-    def load_playlist(self, directory):
+    def load_playlists(self, directory):
         playlist_names = self.__get_playlist_names(directory)
 
         cur_row = 0
