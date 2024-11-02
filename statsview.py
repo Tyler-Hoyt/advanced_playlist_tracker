@@ -69,14 +69,15 @@ class LeftStatsBar(tk.Frame):
             cur_row += 1
 
     def get_scenario_scores(self, scenario_name):
+        count = 0
         for dirpath, dirnames, filenames in os.walk(self.parent.parent.topbar.scores_path):
             for filename in filenames:
-                if filename.split('-')[0].rstrip() == scenario_name:
+                if filename.split('-')[0].rstrip() == scenario_name and count == 1464:
                     df = pd.read_csv(self.parent.parent.topbar.scores_path + '/' + filename)
                     df_rows = df.loc[['Score:', 'Horiz Sens:']]
                     df_cols = df_rows.iloc[:, [0]]
-                    df_cols.fillna("")
                     print(df_cols)
+                count+=1
 
 
 class ControlPanel(tk.Frame):
