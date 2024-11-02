@@ -21,7 +21,7 @@ class PlaylistBar(tk.Frame):
                 text="Select Playlist",
                 command=lambda name=name: self.__change_selected_playlist(name)
             )
-            button.grid(row=cur_row, column=1, padx=2, pady=(10, 0))
+            button.grid(row=cur_row, column=1, padx=2, pady=(5, 0))
 
             cur_row += 1
 

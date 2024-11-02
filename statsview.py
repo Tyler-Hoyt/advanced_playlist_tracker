@@ -1,12 +1,10 @@
 import json
+import pandas as pd
 import os
 import tkinter as tk
 
 
 class StatsView(tk.Frame):
-    #directory_path = "C:/Program Files (x86)/Steam/steamapps/common/FPSAimTrainer/FPSAimTrainer/Saved/SaveGames/Playlists"
-    #scores_path = "C:/Program Files (x86)/Steam/steamapps/common/FPSAimTrainer/FPSAimTrainer/stats"
-
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
@@ -71,10 +69,14 @@ class LeftStatsBar(tk.Frame):
             cur_row += 1
 
     def get_scenario_scores(self, scenario_name):
-        for dirpath, dirnames, filenames in os.walk(self.parent.scores_path):
+        for dirpath, dirnames, filenames in os.walk(self.parent.parent.topbar.scores_path):
             for filename in filenames:
                 if filename.split('-')[0].rstrip() == scenario_name:
-                    print(filename)
+                    df = pd.read_csv(self.parent.parent.topbar.scores_path + '/' + filename)
+                    df_rows = df.loc[['Score:', 'Horiz Sens:']]
+                    df_cols = df_rows.iloc[:, [0]]
+                    df_cols.fillna("")
+                    print(df_cols)
 
 
 class ControlPanel(tk.Frame):

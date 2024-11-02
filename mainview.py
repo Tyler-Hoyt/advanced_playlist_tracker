@@ -13,15 +13,15 @@ class MainView(tk.Frame):
         parent.title("Advanced Playlist Tracker")
         parent.wm_geometry("800x600")
 
-        self.topbar = TopBar(self)
         self.playlistbar = PlaylistBar(self)
         self.statsview = StatsView(self)
+        self.topbar = TopBar(self)
 
         self.topbar.pack(side="top", fill="x")
         self.statsview.pack(side="right", fill="both", expand="True")
 
     def create_playlistbar(self, directory):
-        self.playlistbar.pack(side="left", fill="y")
+        self.playlistbar.pack(side="left", fill="y", pady=20)
         self.playlistbar.load_playlists(directory)
 
 
