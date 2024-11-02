@@ -1,7 +1,9 @@
 import json
 import pandas as pd
 import os
+import re
 import tkinter as tk
+from datetime import datetime
 
 
 class StatsView(tk.Frame):
@@ -63,21 +65,51 @@ class LeftStatsBar(tk.Frame):
 
         cur_row = 1
         for scen in scenarios:
-            label = tk.Label(self, text=scen['scenario_name'])
-            label.grid(row=cur_row, column=0, sticky="w", padx=20, pady=2)
-            self.get_scenario_scores(scen['scenario_name'])
+            scen_name_label = tk.Label(self, text=scen['scenario_name'])
+            scen_name_label.grid(row=cur_row, column=0, sticky="w", padx=20, pady=2)
+            score_dict = self.get_scenario_scores(scen['scenario_name'])
+
+            scen_highscore_label = tk.Label(self, text=score_dict[scen['scenario_name']]['score'])
+            scen_highscore_label.grid(row=cur_row, column=1, sticky="w", padx=20, pady=2)
+
+            threshold_label = tk.Label(self, text=score_dict[scen['scenario_name']]['score']*0.9)
+            threshold_label.grid(row=cur_row, column=2, sticky="w", padx=20, pady=2)
             cur_row += 1
 
     def get_scenario_scores(self, scenario_name):
-        count = 0
+        cur_sens = 0.0
+        with open(self.parent.parent.topbar.settings_path, "r") as settings_file:
+            data = json.load(settings_file)
+            cur_sens = data["floatSettings"]["EFloatSettingId::XSens"]
+
+        d = {}
         for dirpath, dirnames, filenames in os.walk(self.parent.parent.topbar.scores_path):
-            for filename in filenames:
-                if filename.split('-')[0].rstrip() == scenario_name and count == 1464:
-                    df = pd.read_csv(self.parent.parent.topbar.scores_path + '/' + filename)
-                    df_rows = df.loc[['Score:', 'Horiz Sens:']]
-                    df_cols = df_rows.iloc[:, [0]]
-                    print(df_cols)
-                count+=1
+            for file in filenames:
+                if file.split('-')[0].rstrip() == scenario_name:
+                    with open(f"{self.parent.parent.topbar.scores_path}/{file}", newline='\n') as csvfile:
+                        for line in csvfile:
+                            filename = scenario_name.split(" - ")[0]
+                            if "Horiz Sens" in line and re.search(r'\d+.\d+', line):
+                                stripped = line.rstrip()
+                                sens = re.findall(r'\d+.\d+', stripped)[0]
+                                sens = float(sens)
+                                if sens == cur_sens:
+                                    if filename in d:
+                                        d[filename]["sens"] = sens
+                                    else:
+                                        d[filename] = {"score": 0, "sens": sens}
+                                else:
+                                    if filename not in d:
+                                        # No score on this sens
+                                        d[filename] = {"score": 0, "sens": 0}
+                            if "Score" in line:
+                                stripped = line.rstrip()
+                                score = re.findall(r'\d+.\d+', stripped)[0]
+                                score = float(score)
+                                if filename in d:
+                                    if d[filename]["score"] < score and d[filename]["sens"] == cur_sens:
+                                        d[filename]["score"] = score
+        return d
 
 
 class ControlPanel(tk.Frame):
