@@ -3,6 +3,25 @@ import os
 import re
 
 
+def get_playlist_names(directory):
+    playlist_names = []
+    for entry in os.listdir(directory):
+        if os.path.isfile(os.path.join(directory, entry)):
+            if is_playlist_file(os.path.join(directory, entry)):
+                playlist_names.append(entry)
+    return playlist_names
+
+
+# TODO: Need to add more checks here
+def is_playlist_file(file_path):
+    if file_path.endswith(".json"):
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+            if 'scenarioList' in data:
+                return True
+    return False
+
+
 def get_scenario_list(directory_path, playlist_name):
     with open(f"{directory_path}/{playlist_name}", "r") as file:
         data = json.load(file)
@@ -43,5 +62,12 @@ def get_scenario_scores(scores_path, settings_path, scenario_name):
                                         "score": 0,
                                         "sens": 0
                                     }
+                        if "Score" in line:
+                            stripped = line.rstrip()
+                            score = re.findall(r'\d+.\d+', stripped)[0]
+                            score = float(score)
 
-
+                            if cur_filename in highscore_files:
+                                if highscore_files[cur_filename]["score"] < score and highscore_files[cur_filename]["sens"] == cur_sens:
+                                    highscore_files[cur_filename]["score"] = score
+    return highscore_files
